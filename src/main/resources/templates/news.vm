@@ -1,0 +1,53 @@
+<html>
+#set($title = "this is a velocity test!")
+Include: #include("header.vm");<br/>
+Parse:#parse("header.vm");<br/>
+<body>
+<pre>
+Hello Smartzhang!<br/>
+$!{value1}
+## 单行注释
+#*
+多行注释
+*#
+
+## 对map进行遍历输出
+#foreach ($color in $colors)
+Color:$!{foreach.index}/$!{foreach.count}/$!{color}
+#end
+
+## 对map进行遍历输出
+#foreach( $key in $chars.keySet() )
+    <li>Key: $key -> Value: $chars.get($key)</li>
+#end
+
+## 对map进行遍历输出
+#foreach( $kv in $chars.entrySet() )
+    <li>Key: $kv.key -> Value: $kv.value</li>
+#end
+
+## 对map中的对象进行遍历输出
+#foreach( $user in $users.entrySet() )
+    <li>Key: $user.key -> Value: $user.value.username</li>
+#end
+
+## veloctiy 函数使用
+#macro (rend_color,$color,$index)
+Color By Macro $index, $color
+#end
+
+#foreach($color in $colors)
+    #rend_color($color,$foreach.index)
+#end
+
+#set($helloworld = "hello")
+## 双引号能够被解析
+#set($helloworld1 = "$!{hello} world")
+## 单引号能够被解析
+#set($helloworld2 = '$!{hello} world2')
+HelloWorld1:$helloworld1<br/>
+HelloWorld2:$helloworld2<br/>
+$colors.size();
+</pre>
+</body>
+</html>
