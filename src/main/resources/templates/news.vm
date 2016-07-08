@@ -47,7 +47,35 @@ Color By Macro $index, $color
 #set($helloworld2 = '$!{hello} world2')
 HelloWorld1:$helloworld1<br/>
 HelloWorld2:$helloworld2<br/>
-$colors.size();
+$colors.size();<br/>
+##<input type="text" name="email" value="$email"/>
+<input type="text" name="email" value="$!email"/>
+
+#set($flag = false)
+#if($flag)
+    if flag is true, output the text;
+#elseif($flag==false)
+    if flag is false, output the text;
+#end
+
+
+#set($source1 = "abc")
+#set($select = "1")
+#set($dynamicsource = "$source$select")
+## $dynamicsource is now the string '$source1'
+#evaluate($dynamicsource)
+
+
+#macro(tablerows $color $somelist)
+#foreach($something in $somelist)
+    <tr><td bgcolor=$color>$something</td></tr>
+#end
+#end
+#set( $greatlakes = ["Superior","Michigan","Huron","Erie","Ontario"])
+#set($color="blue")
+<table>
+    #tablerows($color $greatlakes)
+</table>
 </pre>
 </body>
 </html>
