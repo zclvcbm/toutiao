@@ -1,7 +1,9 @@
 package com.example;
 
+import com.example.dao.LoginTicketDAO;
 import com.example.dao.NewsDAO;
 import com.example.dao.UserDAO;
+import com.example.model.LoginTicket;
 import com.example.model.News;
 import com.example.model.User;
 import org.junit.Assert;
@@ -26,6 +28,9 @@ public class InitDatabaseTests {
 
 	@Autowired
 	NewsDAO newsDAO;
+
+	@Autowired
+	LoginTicketDAO loginTicketDAO;
 
 	@Test
 	public void contextLoads() {
@@ -65,6 +70,15 @@ public class InitDatabaseTests {
 
 			user.setPassword("newpassword");
 			userDAO.updatePassword(user);
+
+			LoginTicket ticket = new LoginTicket();
+			ticket.setStatus(0);
+			ticket.setUserId(i+1);
+			ticket.setExpired(date);
+			ticket.setTicket(String.format("TICKET%d",i+1));
+			loginTicketDAO.addTicket(ticket);
+
+			loginTicketDAO.updateStatus(ticket.getTicket(),2);
 		}
 
 		Assert.assertEquals("newpassword", userDAO.selectById(1).getPassword());

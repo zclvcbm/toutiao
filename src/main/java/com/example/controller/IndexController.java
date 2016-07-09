@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * Created by Admin on 2016/6/27.
  */
-//@Controller
+@Controller
 public class IndexController {
 
     @Autowired

@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import com.example.model.HostHolder;
 import com.example.model.News;
+import com.example.model.User;
 import com.example.model.ViewObject;
 import com.example.service.NewsService;
 import com.example.service.UserService;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,10 @@ public class HomeController {
 
     @RequestMapping(path={"/", "/index"}, method = {RequestMethod.GET,RequestMethod.POST})
     public String index(Model model) {
-
+        HostHolder holder = new HostHolder();
+        User user = holder.getUser();
+        if(user!=null)
+            System.out.println(user.getName());
         model.addAttribute("vos",getNews(0,0,10));
         return "home";
     }
