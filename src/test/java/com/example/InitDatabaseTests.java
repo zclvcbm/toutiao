@@ -35,7 +35,7 @@ public class InitDatabaseTests {
 	@Test
 	public void contextLoads() {
 		Random random = new Random();
-		for(int i=0;i<11;i++) {
+		for(int i=0;i<1;i++) {
 			User user = new User();
 			user.setHead_url(String.format("http://images.nowcoder.com/head/%dt.png",random.nextInt()));
 			user.setName(String.format("USER%d",i));

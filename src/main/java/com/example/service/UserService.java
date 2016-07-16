@@ -42,7 +42,7 @@ public class UserService {
         user = new User();
         user.setName(username);
         user.setSalt(UUID.randomUUID().toString().substring(0,5));
-        user.setHead_url(String.format("http://images.nowcoder.com/head/%dt.png",random.nextInt()));
+        user.setHead_url(String.format("http://images.nowcoder.com/head/%dt.png",random.nextInt(1000)));
         user.setPassword(ToutiaoUtil.MD5(password+user.getSalt()));
         userDAO.addUser(user);
 
