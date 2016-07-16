@@ -2,6 +2,7 @@
     var PopupLogin = Base.getClass('main.component.PopupLogin');
     var PopupUpload = Base.getClass('main.component.PopupUpload');
     var ActionUtil = Base.getClass('main.util.Action');
+
     Base.ready({
         initialize: fInitialize,
         binds: {

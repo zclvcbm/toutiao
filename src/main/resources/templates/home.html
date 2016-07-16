@@ -1,4 +1,5 @@
 #parse("header.html")
+
 <div id="main">
     <!--
         <div class="hero">
@@ -41,7 +42,7 @@
                             </div>
                             <div class="media">
                                 <div class="media-left">
-                                    <img class="media-object app-qrcode" src="../images/res/qrcode.png" alt="App qrcode web index">
+                                    <img class="media-object app-qrcode" src="/images/res/qrcode.png" alt="App qrcode web index">
                                 </div>
                                 <div class="media-body">
                                     <div class="buttons">
@@ -70,21 +71,27 @@
             #set($cur_date = $date.format('yyyy-MM-dd', $vo.news.createdDate))
             <h3 class="date">
                 <i class="fa icon-calendar"></i>
-                <span>头条资讯 &nbsp; $date.format('yyyy-MM-dd', $vo.news.createdDate) </span>
-
+                <span>头条资讯 &nbsp; $date.format('yyyy-MM-dd', $vo.news.createdDate)</span>
             </h3>
 
             <div class="posts">
                 #end
                 <div class="post">
                     <div class="votebar">
-                        <button class="click-like up" aria-pressed="false" title="赞同"><i class="vote-arrow"></i><span class="count">$!{vo.news.likeCount} </span></button>
-                        <button class="click-dislike down" aria-pressed="true" title="反对"><i class="vote-arrow"></i>
-                        </button>
+                        #if ($vo.like > 0)
+                        <button class="click-like up pressed" data-id="$!{vo.news.id}" title="赞同"><i class="vote-arrow"></i><span class="count">$!{vo.news.likeCount}</span></button>
+                        #else
+                        <button class="click-like up" data-id="$!{vo.news.id}" title="赞同"><i class="vote-arrow"></i><span class="count">$!{vo.news.likeCount}</span></button>
+                        #end
+                        #if($vo.like < 0)
+                        <button class="click-dislike down pressed" data-id="$!{vo.news.id}" title="反对"><i class="vote-arrow"></i></button>
+                        #else
+                        <button class="click-dislike down" data-id="$!{vo.news.id}" title="反对"><i class="vote-arrow"></i></button>
+                        #end
                     </div>
-                    <div class="content" data-url="http://nowcoder.com/posts/5l3hjr">
+                    <div class="content">
                         <div >
-                            <a href="$!{vo.news.image}"><img class="content-img" src="$!{vo.news.image}?imageView2/0/w/100/h/80" alt=""></a>
+                            <img class="content-img" src="$!{vo.news.image}" alt="">
                         </div>
                         <div class="content-main">
                             <h3 class="title">
@@ -134,9 +141,14 @@
     </div>
 </div>
 
+</div>
+
+
 #if ($pop)
 <script>
 window.loginpop = $!{pop};
 </script>
+<script type="text/javascript" src="/scripts/main/site/home.js"></script>
 #end
+
 #parse("footer.html")

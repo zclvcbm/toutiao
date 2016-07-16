@@ -2,11 +2,9 @@ package com.example.controller;
 
 import com.example.Util.ToutiaoUtil;
 import com.example.model.*;
-import com.example.service.CommentService;
-import com.example.service.NewsService;
-import com.example.service.QiniuService;
-import com.example.service.UserService;
+import com.example.service.*;
 import org.apache.ibatis.annotations.Param;
+import org.hibernate.validator.internal.util.privilegedactions.NewSchema;
 import org.omg.CORBA.COMM_FAILURE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.w3c.dom.Entity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -46,11 +45,21 @@ public class NewsController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    LikeService likeService;
+
     @RequestMapping(path={"/news/{newsId}"}, method ={RequestMethod.GET})
     public String newsDetail(@PathVariable("newsId") int newsTd, Model model) {
         try{
             News news = newsService.getById(newsTd);
             if(news!=null) {
+                int localUserId = hostHolder.getUser() != null ? hostHolder.getUser().getId() : 0;
+                if(localUserId != 0 ){
+                    model.addAttribute("like",likeService.getLikeStatus(localUserId, EntityType.ENTITY_NEWS, news.getId()));
+                } else {
+                    model.addAttribute("like",0);
+                }
+                // 评论
                 List<Comment> comments = commentService.getCommentsByEntity(news.getId(), EntityType.ENTITY_NEWS);
                 List<ViewObject> commentVOs = new ArrayList<>();
                 for (Comment comment: comments) {
