@@ -1,6 +1,9 @@
 package com.example.controller;
 
 import com.example.Util.ToutiaoUtil;
+import com.example.async.EventModel;
+import com.example.async.EventProducer;
+import com.example.async.EventType;
 import com.example.model.News;
 import com.example.model.ViewObject;
 import com.example.service.NewsService;
@@ -26,6 +29,9 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EventProducer eventProducer;
 
     public static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -75,6 +81,10 @@ public class LoginController {
                     cookie.setMaxAge(3600*24*5);
                 }
                 response.addCookie(cookie);
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN)
+                                            .setActorId((int)map.get("userId"))
+                                            .setExt("username","牛客")
+                                            .setExt("to",(String) map.get("username")));
                 return ToutiaoUtil.getJSONString(0,"登录成功!");
             } else{
                 return ToutiaoUtil.getJSONString(1,map);

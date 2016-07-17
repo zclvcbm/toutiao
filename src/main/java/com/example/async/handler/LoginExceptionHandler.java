@@ -18,11 +18,11 @@ import java.util.*;
  */
 @Component
 public class LoginExceptionHandler implements EventHandler{
-//    @Autowired
-//    MessageService messageService;
-//
-//    @Autowired
-//    MailSender mailSender;
+    @Autowired
+    MessageService messageService;
+
+    @Autowired
+    MailSender mailSender;
 
     @Override
     public void doHandle(EventModel model) {
@@ -32,11 +32,14 @@ public class LoginExceptionHandler implements EventHandler{
         // SYSTEM ACCOUNT
         message.setFromId(3);
         message.setCreatedDate(new Date());
-//        messageService.addMessage(message);
+        String conversationId = model.getActorId()<3 ? model.getActorId()+"_"+3 : 3+"_"+model.getActorId();
+        message.setConversationId(conversationId);
+        messageService.addMessage(message);
 
         Map<String, Object> map = new HashMap<>();
         map.put("username",model.getExt("username"));
-//        mailSender.sendWithHTMLTemplate(model.getExt("to"),"登陆异常","mails/welcome.html",map);
+        System.out.println("hello");
+        mailSender.sendWithHTMLTemplate(model.getExt("to"),"登陆异常","mails/welcome.html",map);
     }
 
     @Override

@@ -35,6 +35,8 @@ public class LikeHandler implements EventHandler{
                 +String.valueOf(model.getEntityId()));
         message.setFromId(3);
         message.setCreatedDate(new Date());
+        String conversation_id = model.getEntityId()<3?model.getEntityId()+"_"+3:3+"_"+model.getEntityId();
+        message.setConversationId(conversation_id);
         messageService.addMessage(message);
     }
 

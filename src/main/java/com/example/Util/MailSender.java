@@ -6,21 +6,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.InternetAddressEditor;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Properties;
 
 /**
  * Created by Administrator on 2016/7/16.
  */
+@Service
 public class MailSender implements InitializingBean{
     private static final Logger logger = LoggerFactory.getLogger(MailSender.class);
     private JavaMailSenderImpl mailSender;
@@ -30,8 +29,12 @@ public class MailSender implements InitializingBean{
 
     public boolean sendWithHTMLTemplate(String to, String subject, String template, Map<String, Object> model) {
         try{
-            String nick = MimeUtility.decodeText("牛客中级课");
-            InternetAddress from = new InternetAddress(nick + "<course@newcoder.com>");
+            /*String nick = MimeUtility.decodeText("625122577");
+            InternetAddress from = new InternetAddress(nick + "<625122577@qq.com>");*/
+
+            String nick = MimeUtility.decodeText("1m15071740865");
+            InternetAddress from = new InternetAddress(nick + "<15071740865@163.com>");
+
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             String result = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,template,"UTF-8",model);
@@ -52,14 +55,21 @@ public class MailSender implements InitializingBean{
     public void afterPropertiesSet() throws Exception {
         mailSender = new JavaMailSenderImpl();
 
+      /*  //请输入自己的邮箱和密码，用于发送邮件
+        mailSender.setUsername("625122577@qq.com");
+        // qq邮箱第三方登录授权码
+        mailSender.setPassword("ynffkvbmafoybegc");
+        mailSender.setHost("smtp.qq.com");*/
+
         //请输入自己的邮箱和密码，用于发送邮件
-        mailSender.setUsername("course@newcoder.com");
-        mailSender.setPassword("");
-        mailSender.setHost("");
+        mailSender.setUsername("15071740865@163.com");
+        // qq邮箱第三方登录授权码
+        mailSender.setPassword("zc123456");
+        mailSender.setHost("smtp.163.com");
 
         //请配置自己的邮箱和密码
         mailSender.setPort(465);
-        mailSender.setProtocol("smtps");
+        mailSender.setProtocol("smtp");
         mailSender.setDefaultEncoding("utf8");
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.ssl.enable",true);

@@ -195,7 +195,7 @@ public class JedisAdapter implements InitializingBean{
         config.setMaxIdle(8);
         //config.setMaxWait(MAX_WAIT);
         config.setTestOnBorrow(true);
-        pool = new JedisPool(config, "172.25.11.12",6379, TIMEOUT, AUTH);
+        pool = new JedisPool(config, "localhost",6379, TIMEOUT, AUTH);
 
     }
 }
